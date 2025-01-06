@@ -6,7 +6,7 @@
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run3_cff import Run3
-from anomalyDetection.ScoutingAnalysisSkims.cicada_cff import *
+#from anomalyDetection.ScoutingAnalysisSkims.cicada_cff import *
 
 process = cms.Process('NANO',Run3)
 
@@ -29,7 +29,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('/store/mc/Run3Winter24MiniAOD/DYto2L_M-50_TuneCP5_13p6TeV_pythia8/MINIAODSIM/KeepSi_133X_mcRun3_2024_realistic_v8-v2/2540000/00d74fac-f2a0-48a4-82c3-543b8ec1e324.root'),
+    fileNames = cms.untracked.vstring('file:output.root'),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -81,7 +81,7 @@ process.NANOAODSIMoutput = cms.OutputModule("NanoAODOutputModule",
         dataTier = cms.untracked.string('NANOAODSIM'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('scouting_nano_mc_withCICADAscore.root'),
+    fileName = cms.untracked.string('scouting_nano_mc.root'),
     outputCommands = process.NANOAODSIMEventContent.outputCommands
 )
 
@@ -101,10 +101,11 @@ process.schedule = cms.Schedule(process.nanoAOD_step,process.endjob_step,process
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
+'''
 # add cicada table task to process
 cicadaTableTask = cms.Task(cicadaTable)
 process.schedule.associate(cicadaTableTask)
-
+'''
 '''
 from anomalyDetection.ScoutingAnalysisSkims.CICADANtuplizer_cfi import CICADANtuplizer
 process.CICADANtuplizer = CICADANtuplizer

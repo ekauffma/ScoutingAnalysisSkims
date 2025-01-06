@@ -15,8 +15,9 @@ config.JobType.psetName = f'{os.environ["CMSSW_BASE"]}/src/anomalyDetection/Scou
 config.JobType.pluginName = 'Analysis'
 config.JobType.maxMemoryMB = 5000
 
-config.Data.inputDataset= '/TT_TuneCP5_13p6TeV_powheg-pythia8/ekauffma-CICADAAnalysis_ZeroBias_Skim_2024G_20241206-324e0bac8106cc6e12d258f344e69f7c/USER'
-config.Data.inputDBS = 'phys03'
+#config.Data.inputDataset= '/TT_TuneCP5_13p6TeV_powheg-pythia8/ekauffma-CICADAAnalysis_ZeroBias_Skim_2024G_20241206-324e0bac8106cc6e12d258f344e69f7c/USER'
+config.Data.inputDataset='/TT_TuneCP5_13p6TeV_powheg-pythia8/Run3Winter24MiniAOD-133X_mcRun3_2024_realistic_v8-v2/MINIAODSIM'
+config.Data.inputDBS = 'global'
 config.Data.splitting = 'EventAwareLumiBased'
 config.Data.unitsPerJob = 5500
 config.Data.publication = True
