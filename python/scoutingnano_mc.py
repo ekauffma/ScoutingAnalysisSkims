@@ -6,7 +6,6 @@
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run3_cff import Run3
-#from anomalyDetection.ScoutingAnalysisSkims.cicada_cff import *
 
 process = cms.Process('NANO',Run3)
 
@@ -97,23 +96,17 @@ process.endjob_step = cms.EndPath(process.endOfProcess)
 process.NANOAODSIMoutput_step = cms.EndPath(process.NANOAODSIMoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.nanoAOD_step,process.endjob_step,process.NANOAODSIMoutput_step)
+## CICADA converter
+from PhysicsTools.NanoAOD.CICADAScoreConverter_cfi import CICADAScoreConverter
+process.CICADAScoreConverter = CICADAScoreConverter
+process.beforeCICADATablePath = cms.Path(process.CICADAScoreConverter)
+process.schedule = cms.Schedule(process.beforeCICADATablePath)
+
+process.schedule.append(process.nanoAOD_step)
+process.schedule.append(process.endjob_step)
+process.schedule.append(process.NANOAODSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
-
-'''
-# add cicada table task to process
-cicadaTableTask = cms.Task(cicadaTable)
-process.schedule.associate(cicadaTableTask)
-'''
-'''
-from anomalyDetection.ScoutingAnalysisSkims.CICADANtuplizer_cfi import CICADANtuplizer
-process.CICADANtuplizer = CICADANtuplizer
-process.customNtuplePath = cms.Path(process.CICADANtuplizer)
-process.schedule.append(process.customNtuplePath)
-'''
-
-
 
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
